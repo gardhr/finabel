@@ -9,6 +9,11 @@ Much thanks to all of the awesome folks at [crypto.stackexchange.com](https://cr
 ## Usage
 
 ```js
+
+const finabel = require(
 var hash = finabel(password, salt, rounds, digits);
 ```
 
+## Implementation
+
+The algorithm requires "big integer" maths, so 

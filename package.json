@@ -1,0 +1,24 @@
+{
+  "name": "finabel",
+  "version": "0.0.1",
+  "description": "A password hash function based on finite abelian groups",
+  "main": "finabel.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gardhr/finabel.git"
+  },
+  "keywords": [
+    "password",
+    "hash",
+    "function"
+  ],
+  "author": "gardhr",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/gardhr/finabel/issues"
+  },
+  "homepage": "https://github.com/gardhr/finabel#readme"
+}
