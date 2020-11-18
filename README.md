@@ -10,3 +10,4 @@ Much thanks to all of the awesome folks at [crypto.stackexchange.com](crypto.sta
 var hash = finabel(password, salt, rounds, digits);
 ```
 
+Try it [live](https://gardhr.github.io/)!
