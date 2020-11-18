@@ -12,3 +12,4 @@ const finabel = require("finabel");
 // ...
 var hash = finabel(password, salt, rounds, digits, verbose);
 ```
+
