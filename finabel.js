@@ -1587,7 +1587,7 @@ var finabel = (function () {
 
     if (digits > 0) {
       var length = result.length;
-      if (length >= digits) return result.substr(0, digits);
+      if (length > digits) return result.substr(0, digits);
       while (length++ < digits) result += "0";
     }
 
