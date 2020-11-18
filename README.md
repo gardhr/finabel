@@ -16,5 +16,3 @@ var hash = finabel(password, salt, rounds, digits);
 ## Implementation
 
 The algorithm requires "big integer" maths, so much of the code is actually an imbedded version of [peterolson's BigInteger.js library](https://github.com/peterolson/BigInteger.js). The [actual hash function](https://github.com/gardhr/finabel/blob/main/finabel.js#L1489) is roughly 40 lines of code, so not much to work though in order to understand how it works.
-
-
