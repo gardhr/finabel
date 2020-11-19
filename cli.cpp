@@ -79,7 +79,9 @@ string finabel(vector<string> const& keys, size_t rounds = 0,
   static bool uninitialized = true;
 
   if (uninitialized) {
+  
     uninitialized = false;
+    
     A = BigInt(
         "90086843365112375319585743415488659286349207571888721438704682"
         "94068098052833612962771759906636851615301839972438960776231651"
