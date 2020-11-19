@@ -10,6 +10,6 @@ Much thanks to all of the awesome folks at [crypto.stackexchange.com](https://cr
 ```js
 const finabel = require("finabel");
 // ...
-var hash = finabel(password, salt, rounds, digits, verbose);
+var hash = finabel(password, salt, rounds, digits);
 ```
 
