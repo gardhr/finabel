@@ -7,7 +7,7 @@ console.log("Usage:", argv[0], "[KEY] [SALT] [ROUNDS] [DIGITS]");
 let key = "";
 if (argc > 1) key = argv[1];
 let salt = "";
-if (argc > 2) key = argv[2];
+if (argc > 2) salt = argv[2];
 let rounds = 0;
 if (argc > 3) rounds = atoi(argv[3]);
 let digits = 0;
