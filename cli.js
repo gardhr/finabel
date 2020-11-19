@@ -1,5 +1,4 @@
 #!/usr/bin/node
-
 const finabel = require("./finabel");
 let argv = process.argv.slice(1);
 let argc = argv.length;
