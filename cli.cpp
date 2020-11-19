@@ -140,7 +140,7 @@ int main(int argc, char** argv) {
   string key = "";
   if (argc > 1) key = argv[1];
   string salt = "";
-  if (argc > 2) key = argv[2];
+  if (argc > 2) salt = argv[2];
   size_t rounds = 0;
   if (argc > 3) rounds = atoi(argv[3]);
   size_t digits = 0;
