@@ -1,5 +1,7 @@
 # Security Policy
 
+Finabel has several [workflows](https://github.com/gardhr/finabel/tree/main/.github/workflows) set up for automated vulnerability scanning.
+
 ## Supported Versions
 
 | Version | Supported          |
