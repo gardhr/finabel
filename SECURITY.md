@@ -11,4 +11,4 @@ Finabel has several [workflows](https://github.com/gardhr/finabel/tree/main/.git
 
 ## Reporting a Vulnerability
 
-Please report any vulnerabilities by creating a new issue [here](https://github.com/gardhr/finabel/issues/new/choose)
+Please report any vulnerabilities by creating a new issue [here](https://github.com/gardhr/finabel/issues/new/choose).
