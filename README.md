@@ -35,3 +35,9 @@ S = E(R)
 
 H(V) = (Q * S) mod C
 
+The function exibits some very useful properties:
+
+(1) Irreversibility.
+(2) Non-malleability (first and secondary preimage resistance).
+(3) Strong collision resistance.
+
