@@ -39,7 +39,7 @@ S = E(R)
 H(V) = (Q * S) mod C
 ```
 
-And that's basically it! The finabel algorithm demonstrates some very useful properties:
+The finabel algorithm demonstrates some very useful properties:
 
 (1) Irreversibility.
 
