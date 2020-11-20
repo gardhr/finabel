@@ -20,6 +20,15 @@ let rounds = 0;
 if (argc > 3) rounds = Number(argv[3]);
 let digits = 0;
 if (argc > 4) digits = Number(argv[4]);
-console.log(finabel(key, salt, rounds, digits, true));
+console.log(finabel(key, salt, rounds, digits));
 ```
+
+## How it works
+
+The finabel algorithm is incredibly simple. A bird's-eye view looks something like this. Let V represent a password and salt merged together and then reinterpreted as a large integer, and A, B, C are large (public) prime numbers. Next we define the function E(X) which "stretches" some X by repeated concatenation until the number of bits in the result contains at least as many bit's as the largest prime. Now we apply the following transform to calculate the hash H(V):
+
+Q = E(V)
+R = (Q * A) mod B
+S = E(R)  
+H(V) = (Q * S) mod C
 
