@@ -11,4 +11,4 @@ let rounds = 0;
 if (argc > 3) rounds = Number(argv[3]);
 let digits = 0;
 if (argc > 4) digits = Number(argv[4]);
-console.log(finabel(key, salt, rounds, digits, true));
+console.log(finabel(key, salt, rounds, digits));
