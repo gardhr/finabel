@@ -34,11 +34,10 @@ Q = E(V)
 
 R = (Q * A) mod B
 
-S = E(R)  
+S = E(R)
 
 H(V) = (Q * S) mod C
 ```
-
 
 That's basically it! The hash function appears to exhibit some very useful properties:
 
@@ -51,4 +50,5 @@ That's basically it! The hash function appears to exhibit some very useful prope
 ## Caveats
 
 It should be noted that this is all still very much in the experimental stage. Which is to say you probably shouldn't be using it just yet to replace what's currently protecting your user's passwords!
+
 Many thanks to all of the awesome folks at [crypto.stackexchange.com](https://crypto.stackexchange.com) for their assistance in fleshing things out.
