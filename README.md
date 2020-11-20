@@ -1,5 +1,6 @@
 [![npm version](https://badge.fury.io/js/finabel.png)](https://badge.fury.io/js/finabel)
 [![NPM Downloads](https://img.shields.io/npm/dw/finabel)](https://www.npmjs.com/package/finabel)
+[![Build Status](https://travis-ci.com/gardhr/finabel.png?branch=master)](https://travis-ci.com/gardhr/finabel)
 [![Known Vulnerabilities](https://snyk.io/test/github/gardhr/finabel/badge.svg?targetFile=package.json)](https://snyk.io/test/github/gardhr/finabel?targetFile=package.json)
 [![GitHub license](https://img.shields.io/badge/license-UNLICENSE-blue.svg)](https://github.com/gardhr/finabel/blob/master/LICENSE)
 
