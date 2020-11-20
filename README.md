@@ -30,6 +30,7 @@ console.log(finabel(key, salt, rounds, digits));
 
 The finabel algorithm is incredibly simple. A bird's-eye view looks something like this. We start by defining three large (public) prime numbers, A, B, and C. Next we define the function E(X) which "stretches" some X by repeated concatenation until the result contains at least as many bits as the largest prime. Let V represent some password and salt merged together and then reinterpreted as a large integer. Now we apply the following transform to calculate the hash, H(V):
 
+```
 Q = E(V)
 
 R = (Q * A) mod B
@@ -37,6 +38,8 @@ R = (Q * A) mod B
 S = E(R)  
 
 H(V) = (Q * S) mod C
+```
+
 
 That's basically it! The hash function appears to exhibit some very useful properties:
 
