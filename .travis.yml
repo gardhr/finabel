@@ -1,0 +1,7 @@
+{
+ "language":"node_js",
+ "node":"node",
+ "os":"linux",
+ "install":"npm install",
+ "script":"npm test"
+}
