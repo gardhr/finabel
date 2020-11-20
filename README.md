@@ -53,4 +53,4 @@ The finabel algorithm demonstrates some very useful properties:
 (5) Not susceptible to [length extension attacks](https://en.wikipedia.org/wiki/Length_extension_attack).
 
 A big shout out to all the amazing folks at [crypto.stackexchange.com](https://crypto.stackexchange.com) for their invaluable input. Thanks everyone!
-
+ 
