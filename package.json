@@ -1,6 +1,6 @@
 {
   "name": "finabel",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A password hash function based on finite abelian groups",
   "main": "finabel.js",
   "scripts": {
