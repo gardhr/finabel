@@ -51,4 +51,4 @@ That's basically it! The hash function appears to exhibit some very useful prope
 
 It should be noted that this is all still very much in the experimental stage. Which is to say you probably shouldn't be using it just yet to replace what's currently protecting your user's passwords!
 
-Many thanks to all of the amazing folks at [crypto.stackexchange.com](https://crypto.stackexchange.com) for their generous assistance. 
+Special thanks to all of the amazing folks at [crypto.stackexchange.com](https://crypto.stackexchange.com) for their invaluable input. 
