@@ -38,7 +38,7 @@ S = E(R)
 
 H(V) = (Q * S) mod C
 
-The hash function exibits some very useful properties:
+That's basically it! The hash function exibits some very useful properties:
 
 (1) Irreversibility.
 
