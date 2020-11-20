@@ -45,7 +45,7 @@ That's basically it! The hash function appears to exhibit some very useful prope
 
 (1) Irreversibility.
 
-(2) Non-malleability (first and secondary preimage resistance).
+(2) Non-malleability (primary and secondary preimage resistance).
 
 (3) Strong collision resistance.
 
