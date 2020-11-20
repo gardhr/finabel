@@ -27,7 +27,7 @@ console.log(finabel(key, salt, rounds, digits));
 
 ## How it works
 
-The finabel algorithm is incredibly simple. A bird's-eye view looks something like this. We start by defining three large (public) prime numbers, A, B, and C. Next we define the function E(X) which "stretches" some X by repeated concatenation until the result contains at least as many bits as the largest prime. Let V represent some password and salt merged together and then reinterpreted as a large integer. Now we apply the following transform to calculate the hash, H(V):
+A bird's-eye view looks something like this. We start by defining three large (public) prime numbers, A, B, and C. Next we define the function E(X) which "stretches" some X by repeated concatenation until the result contains at least as many bits as the largest prime. Let V represent our password and salt merged together and then reinterpreted as a large integer. Now we apply the following transform to calculate our hash, H(V):
 
 ```
 Q = E(V)
@@ -39,7 +39,7 @@ S = E(R)
 H(V) = (Q * S) mod C
 ```
 
-That's basically it! The hash function appears to exhibit some very useful properties:
+And that's basically it! The finabel algorithm demonstrates some very useful properties:
 
 (1) Irreversibility.
 
@@ -47,8 +47,9 @@ That's basically it! The hash function appears to exhibit some very useful prope
 
 (3) Strong collision resistance.
 
-## Caveats
+(4) Satisfies the strict avalanche and bit independence criteria.
 
-It should be noted that this is all still very much in the experimental stage. Which is to say you probably shouldn't be using it just yet to replace what's currently protecting your user's passwords!
+(5) Not susceptible to length extension attacks.
 
-Special thanks to all of the amazing folks at [crypto.stackexchange.com](https://crypto.stackexchange.com) for their invaluable input. 
+A big shout out to all the amazing folks at [crypto.stackexchange.com](https://crypto.stackexchange.com) for their invaluable input. Thanks everyone!
+
