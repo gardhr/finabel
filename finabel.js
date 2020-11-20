@@ -80,15 +80,15 @@ var finabel = (function () {
  Compute the hash
 */
 
-    var result = BigInt("0x" + merged);
+    var V = BigInt("0x" + merged);
     do {
-      var Q = stretch(result);
-      var R = stretch((Q * A) % B);
-      var F = (Q * R) % C;
-      result = F;
+      var Q = stretch(V);
+      var R = (Q * A) % B;
+      var S = stretch(R);
+      V = (Q * S) % C;
     } while (rounds-- > 0);
 
-    var text = result.toString(16);
+    var text = V.toString(16);
 
     if (digits > 0) {
       var length = text.length;
