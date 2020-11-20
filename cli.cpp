@@ -112,19 +112,18 @@ string finabel(vector<string> const& keys, size_t rounds = 0,
     if (next != "") merged += toHex(next) + field_separator;
   }
 
-  BigInt Q, R, F, temp;
-  BigInt result = BigInt(merged, 16);
+  BigInt Q, R, S, tmp;
+  BigInt V = BigInt(merged, 16);
   do {
-    Q = stretch(result);
-    mpz_mul(temp.data, Q.data, A.data);
-    mpz_mod(temp.data, temp.data, B.data);
-    R = stretch(temp);
-    mpz_mul(temp.data, Q.data, R.data);
-    mpz_mod(F.data, temp.data, C.data);
-    result = F;
+    Q = stretch(V);
+    mpz_mul(tmp.data, Q.data, A.data);
+    mpz_mod(R.data, tmp.data, B.data);
+    S = stretch(R);
+    mpz_mul(tmp.data, Q.data, S.data);
+    mpz_mod(V.data, tmp.data, C.data);
   } while (rounds-- != 0);
 
-  string text = result.toString(16);
+  string text = V.toString(16);
 
   if (digits > 0) {
     size_t length = text.size();
