@@ -41,15 +41,15 @@ H(V) = (Q * S) mod C
 
 The finabel algorithm demonstrates some very useful properties:
 
-(1) Irreversibility.
+(1) [Irreversibility](https://en.wikipedia.org/wiki/One-way_function).
 
-(2) Non-malleability (primary and secondary preimage resistance).
+(2) Non-malleability (primary and secondary [preimage resistance](https://en.wikipedia.org/wiki/Preimage_attack)).
 
-(3) Strong collision resistance.
+(3) Strong [collision resistance](https://en.wikipedia.org/wiki/Collision_resistance).
 
-(4) Satisfies the strict avalanche and bit independence criteria.
+(4) Satisfies the [strict avalanche and bit independence criteria](https://en.wikipedia.org/wiki/Confusion_and_diffusion).
 
-(5) Not susceptible to length extension attacks.
+(5) Not susceptible to [length extension attacks](https://en.wikipedia.org/wiki/Length_extension_attack).
 
 A big shout out to all the amazing folks at [crypto.stackexchange.com](https://crypto.stackexchange.com) for their invaluable input. Thanks everyone!
 
