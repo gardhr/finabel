@@ -8,7 +8,7 @@ Try it [live](https://gardhr.github.io/)!
 
 Finabel is a relatively simple password hashing algorithm based on cyclic abelian groups (finite fields). The primary motivation here was to implement something which is (hopefully) easier to analyze and verify than some of the more typical functions in common use.
 
-## Usage
+# Usage
 
 ```js
 const finabel = require("./finabel");
@@ -26,7 +26,7 @@ if (argc > 4) digits = Number(argv[4]);
 console.log(finabel(key, salt, rounds, digits));
 ```
 
-## How it works
+# How it works
 
 A bird's-eye view looks something like this. We start by defining three large (public) prime numbers, A, B, and C. Next we define the function E(X) which "stretches" some X by repeated concatenation until the result contains at least as many bits as the largest prime. Let V represent our password and salt merged together and then reinterpreted as a large integer. We now apply the following transform to calculate our hash, H(V):
 
@@ -52,7 +52,7 @@ The finabel algorithm demonstrates some very useful properties:
 
 (5) Not susceptible to [length extension attacks](https://en.wikipedia.org/wiki/Length_extension_attack).
 
-## Implementation
+# Implementation
 
 This is currently just a reference implementation. The Javascript code is complete and will work on any modern platform (node/web/etc) while the C++ code is fairly rigid thus not very useful as is (it also requires the GNU Multiprecision Arithmetic library). In the future I may include other languages as well. Until then, developers are encouraged to create their own implementations based on the simple and straightforward examples given here.
 
