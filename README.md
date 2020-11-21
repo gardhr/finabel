@@ -52,5 +52,8 @@ The finabel algorithm demonstrates some very useful properties:
 
 (5) Not susceptible to [length extension attacks](https://en.wikipedia.org/wiki/Length_extension_attack).
 
-A big shout out to all the amazing folks at [crypto.stackexchange.com](https://crypto.stackexchange.com) for their invaluable input. Thanks everyone!
- 
+## Implementation
+
+This is currently just a reference implementation. The Javascript code is complete and will work on any modern platform (node/web/etc) while the C++ code is fairly rigid thus not very useful as is (it also requires the GNU Multiprecision Arithmetic library). In the future I may include other languages as well. Until then, developers are encouraged to create their own implementations based on the simple and straightforward examples given here.
+
+I would also like to thank the folks at [crypto.stackexchange.com](https://crypto.stackexchange.com) for their invaluable input.
