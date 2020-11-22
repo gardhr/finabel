@@ -7,7 +7,7 @@ def toHex(text):
             toHex.lookup.append(hexadecimal[index >> 4] + hexadecimal[index & 0xF])
     result = ""
     for index in range(len(text)):
-        code = ord(text[index])       
+        code = ord(text[index])
         while True:
             result += toHex.lookup[code & 0xFF]
             code >>= 8
@@ -56,7 +56,7 @@ def finabel(key, salt, rounds, digits):
     if digits > 0:
         length = len(text)
         if length > digits:
-            return text.substr(0, digits)
+            return text[0:digits]
         while length < digits:
             text += "0"
             length += 1
