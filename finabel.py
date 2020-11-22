@@ -9,7 +9,6 @@ def toHex(text):
     for index in range(len(text)):
         code = ord(text[index])       
         while True:
-            print(code & 0xff)
             result += toHex.lookup[code & 0xFF]
             code >>= 8
             if code == 0:
