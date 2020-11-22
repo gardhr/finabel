@@ -54,6 +54,12 @@ The finabel algorithm demonstrates some very useful properties:
 
 ## Implementation
 
-This is currently just a reference implementation. The Javascript code is complete and will work on any modern platform (node/web/etc) while the C++ code is fairly rigid thus not very useful as is (it also requires the GNU Multiprecision Arithmetic library). In the future I may include other languages as well. Until then, developers are encouraged to create their own implementations based on the straightforward examples given here.
+This reference implementation currently supports the following languages to one degree or another:
+
+- Python 3
+- Javascript (UTF-8 handling incomplete)
+- C++ (however, code is fairly rigid; also requires the GNU Multiprecision Arithmetic library)
+
+In the future I may include other languages as well. Until then, developers are encouraged to create their own implementations based on the straightforward examples given here.
 
 I would also like to thank the folks at [crypto.stackexchange.com](https://crypto.stackexchange.com) for their invaluable input.
