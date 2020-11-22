@@ -6,13 +6,9 @@ def toHex(text):
         for index in range(256):
             toHex.lookup.append(hexadecimal[index >> 4] + hexadecimal[index & 0xF])
     result = ""
-    for index in range(len(text)):
-        code = ord(text[index])
-        while True:
-            result += toHex.lookup[code & 0xFF]
-            code >>= 8
-            if code == 0:
-                break
+    bytes = text.encode()
+    for index in range(len(bytes)):
+        result += toHex.lookup[bytes[index]]
     return result
 
 A = 900868433651123753195857434154886592863492075718887214387046829406809805283361296277175990663685161530183997243896077623165157756007099732429029873106259069821886766195661979481563101826429797570890866473513531898785774896418926615059720815237664116812063491035355207065882456370964859448027182804663
