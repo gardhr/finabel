@@ -54,11 +54,11 @@ The finabel algorithm demonstrates some very useful properties:
 
 ## Implementation
 
-The reference implementation currently supports the following languages (UTF-8 fully supported unless otherwise indicated):
+This reference implementation currently supports the following languages (UTF-8 fully supported unless otherwise indicated):
 
 - Python 3
 - Javascript
-- C++
+- C++ (requires GNU Multiple Precision Arithmetic library)
 
 In the future I may include other languages as well. Until then, developers are encouraged to create their own implementations based on the straightforward examples given here.
 
