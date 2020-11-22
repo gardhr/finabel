@@ -63,3 +63,4 @@ This reference implementation currently supports the following languages (UTF-8 
 In the future I may include other languages as well. Until then, developers are encouraged to create their own implementations based on the straightforward examples given here.
 
 I would also like to thank the folks at [crypto.stackexchange.com](https://crypto.stackexchange.com) for their invaluable input.
+
