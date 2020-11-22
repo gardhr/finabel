@@ -54,7 +54,7 @@ The finabel algorithm demonstrates some very useful properties:
 
 ## Implementation
 
-This reference implementation currently supports the following languages:
+The reference implementation currently supports the following languages (UTF-8 fully supported unless otherwise indicated):
 
 - Python 3
 - Javascript
