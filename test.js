@@ -55,12 +55,14 @@ report(
   500
 );
 
+/*
 report(
   "finabel('😃🧘🏻‍♂️🌍🍞🚗', '📞🎉♥️🏁')",
   "14a958cc9d64d59d3d22deedd0c1b3e9c11b614d248189e6c9ab00782a72b44320007f2f5d158cef05b9215fa82cead81b1ec2331d174f07306fb3b7539eac6eaaad472d68a08bb0341890c4d608af788b8c07cdc43b7b383319374ff58fd9631c28788b5a25af82e6d43bc02ea24e4e85f47d39a365ab1854eb20595d",
   "😃🧘🏻‍♂️🌍🍞🚗",
   "📞🎉♥️🏁"
 );
+*/
 
 const EXIT_SUCCESS = 0;
 const EXIT_FAILURE = 1;
