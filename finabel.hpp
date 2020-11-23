@@ -17,8 +17,8 @@ inline std::string finabel(std::string const& key,
 
 inline std::string finabel(std::string const& key,
                            std::string const& salt,
-                           size_t digits = 0,
-                           size_t rounds = 0) {
+                           size_t rounds = 0,
+                           size_t digits = 0) {
   std::vector<std::string> keys;
   keys.push_back(key);
   keys.push_back(salt);
