@@ -53,7 +53,7 @@ public class Finabel {
     static String record_separator = toHex("\u001e");
     static String field_separator = toHex("\u001c");
 
-    static BigInteger stretch(BigInteger value) {
+    private static BigInteger stretch(BigInteger value) {
         String hexadecimal = value.toString(16);
         String buffer = hexadecimal;
         do {
