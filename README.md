@@ -60,9 +60,9 @@ Choosing strong parameters will go a long way in securing you user's passwords.
 
 (2) Passwords length should probably be a minimum of 10 or 12 characters. 
 
-(3) Number of output digits used should probably be at minimum 32 hexadecimal digits.
+(3) Always include a salt parameter. This could be something as simple as the user's username. 
 
-(4) Always include a salt parameter. This could be the user's username. 
+(4) Number of output digits used should probably be at minimum 32 hexadecimal digits.
 
 ## Implementation
 
