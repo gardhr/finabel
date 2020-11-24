@@ -26,7 +26,7 @@ if (argc > 4) digits = Number(argv[4]);
 console.log(finabel(key, salt, rounds, digits));
 ```
 
-NOTE: If _rounds_ is zero or unspecified, it defaults to 1000. 
+NOTE: If _rounds_ is zero or unspecified, a default of 500 rounds is used. 
 
 ## How it works
 

@@ -64,7 +64,7 @@ public class Finabel {
 
     public String hash(String keys[], int rounds, int digits) {
         if (rounds == 0)
-            rounds = 1000;
+            rounds = 500;
         String merged = record_separator;
         for (int index = 0, limit = keys.length; index < limit; ++index) {
             String next = keys[index];
