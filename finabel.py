@@ -31,6 +31,8 @@ def stretch(value):
     return int(buffer, 16)
 
 def finabel(key, salt, rounds, digits):
+    if rounds is None or rounds == 0:
+        rounds = 1000
     keys = key if isinstance(key, list) else [key]
     keys.append(salt)
     merged = record_separator

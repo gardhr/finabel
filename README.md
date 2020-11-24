@@ -26,6 +26,8 @@ if (argc > 4) digits = Number(argv[4]);
 console.log(finabel(key, salt, rounds, digits));
 ```
 
+NOTE: If _rounds_ is zero or unspecified, it defaults to 1000. 
+
 ## How it works
 
 A bird's-eye view looks something like this. We start by defining three large (public) prime numbers, A, B, and C. Next we define the function E(X) which "stretches" some X by repeated concatenation until the result contains at least as many bits as the largest prime. Let V represent our password and salt merged together and then reinterpreted as a large integer. We now apply the following transform to calculate our hash, H(V):
@@ -51,18 +53,6 @@ The finabel algorithm demonstrates some very useful properties:
 (4) Satisfies the [strict avalanche and bit independence criteria](https://en.wikipedia.org/wiki/Confusion_and_diffusion).
 
 (5) Not susceptible to [length extension attacks](https://en.wikipedia.org/wiki/Length_extension_attack).
-
-## Recommendations
-
-Choosing strong parameters will go a long way in securing you user's passwords.
-
-(1) The current recommended number of rounds is 1000. 
-
-(2) Passwords length should probably be a minimum of 10 or 12 characters. 
-
-(3) Always include a salt parameter. This could be something as simple as the user's username. 
-
-(4) Number of output digits used should probably be at minimum 32 hexadecimal digits.
 
 ## Implementation
 
