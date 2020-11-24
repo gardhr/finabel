@@ -58,7 +58,7 @@ This reference implementation currently supports the following languages (UTF-8 
 
 - Python 3
 - Javascript
-- C++ (requires GNU Multiple Precision Arithmetic library)
+- C++ (requires [GNU Multiple Precision Arithmetic library](https://gmplib.org/#DOWNLOAD))
 - Java
 
 In the future I may include other languages as well. Until then, developers are encouraged to create their own implementations based on the straightforward examples given here.
