@@ -58,11 +58,11 @@ Choosing strong parameters will go a long way in securing you user's passwords.
 
 (1) The current recommended number of rounds is 1000. 
 
-(2) Passwords length should probably be a minimum of 10 or 12 characters. (See (4) for possible exceptions). 
+(2) Passwords length should probably be a minimum of 10 or 12 characters. 
 
 (3) Number of output digits used should probably be at minimum 32 hexadecimal digits.
 
-(4) Always include a salt parameter. This could be the user's username, or even something such as dynamically generated data (securely) sent over from the server. If the latter then the user's password can possibly be much shorter (even empty). Just be sure that it is *truly* random and contains a good amount of entropy (256 bits for example).
+(4) Always include a salt parameter. This could be the user's username. 
 
 ## Implementation
 
