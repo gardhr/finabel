@@ -57,8 +57,11 @@ The finabel algorithm demonstrates some very useful properties:
 Choosing strong parameters will go a long way in securing you user's passwords.
 
 (1) The current recommended number of rounds is 1000. 
+
 (2) Passwords length should probably be a minimum of 10 or 12 characters. (See (4) for possible exceptions). 
+
 (3) Number of output digits used should probably be at minimum 32 hexadecimal digits.
+
 (4) Always include a salt parameter. This could be as simple as the user's username, or even a dynamically generated value sent over the server. If the latter then the user's password can be much shorter (even empty). Just be sure that it is TRULY random!
 
 ## Implementation
