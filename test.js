@@ -10,17 +10,13 @@ var errors = 0;
 
 function report(useCase, expected, key, salt, rounds) {
   ++tests;
-  useCase += " == " + expected;
+  useCase += " == " + expected + " :";
   try {
     assert.equal(finabel(key, salt, rounds), expected);
-    print(useCase, ": passed");
+    print(useCase, "passed");
   } catch (error) {
     ++errors;
-    let maxLength = 120;
-    let message = error.toString();
-    if (message.length > maxLength)
-      message = message.substr(0, maxLength) + "...";
-    complain(useCase, ": FAILED (" + message + ")");
+    complain(useCase, "FAILED");
   }
   crlf();
 }
@@ -31,20 +27,20 @@ crlf();
 
 report(
   "finabel()",
-  "5f4496fdad14e32b3af6dd66244ee8d090305289c5f2ea5b522b229f49ac4dda8d8bc99e9fa1f2246b4f93ead5510fbc89e64e5e0d03ac0c18736b6c953ace2487432e502c48c9c8e8b550cb423f66fe6a8e5bb85c15762604ca1c8c212ccff2133a40a2837040ca662f436af78a08d8945aa68837d1743f7bd3e54c6"
-);
-
-report(
-  "finabel('foo', 'bar')",
-  "953f9bb0168f6c9460b73262a278d041fada2484d1226981c9b5dc8335c5e635d7cea23116496ed08c50ce5ddb201184d0370294659261e0c23496a313d8fce7c26a000d87be3b2802427ae6105d2ec00b980e26fabe441138da7caf34a59b26e1d7d8919401f748b19e23685c359fa0edae4bcd61a76a4f9be64abdf",
-  "foo",
-  "bar"
+  "be79bc7b2d231365157bfda7722582fbff5861d6c45073e7341116ab58fc572d2f471e9e97d5062572c353e921ac2d5318efd944ce2ab1cab9356392c9cd546334782ff9ef7b9238790d38d92b3c247411bb210566fd766249adac52cc4f923a91c9c2740ff352d794c2a51463ac6b75fab04312b6bcec06abc7ad886"
 );
 
 report(
   "finabel('foobar')",
-  "4e5b386b5a3a8f2b08afa9d2ca0e3db46e7dd002177f9d2ea146c98d71f3014e62a790b91d243d32ebea569d3c713de85c219f5fd8c1ecb5a9224d584267d1ad5f3033410f9301fb070f124796940cfc23b3121a3e5b8ab420238f1ec894462d874a5d6276a9d3d62f2a748179c05301c7c6064722946b6626abcb3f6",
+  "e93d89404463776f45362c8892911e1fc0dc1e0015c481f677e37f0ed85eec28b288f0be8a1ff669ebf77a6f2284deebe6d64052eabaa3f7d65bc5508baf096fc37bb78789b3e38c224dc4158c685675e13a667128ee76a0e6ec33053abb62af120825adeeb1f65ad504e7027528813ae5d76b79da56a3600f192b2e6",
   "foobar"
+);
+
+report(
+  "finabel('foo', 'bar')",
+  "a0338afacff78bd22c213f338f071e892e588885dbce0083c96c963ebc0c9bb2d8bdb8dd32a23c18d130f8e0033f6c0d6a29461d8a0ecffeae2ee898608e5aca48a22b8c60099f6ce5703bcaced712f1659be93ceba78a28c2444849f4d19acb48ec8bb4fe0ca87215cd68cb999033a77f854b5eece4fdc8e98b55c08",
+  "foo",
+  "bar"
 );
 
 report(
@@ -56,8 +52,16 @@ report(
 );
 
 report(
+  "finabel('foo', 'bar', 2000)",
+  "67648d9bab82dcfababc1c22a565deee0d950bf2f9bcfb67696fc79b199fc3e512edfa8e5840fe3ab5614fda93266df055ca65caace9297219ba79d2f9bfc8409908013556346dfdf83077457b78269e123a7f0569cd9c184036b6e7298e9e5283d5ee92ee7b94dd03851f3b91eb7379f0e6bbe79e52cede8cad8d97b",
+  "foo",
+  "bar",
+  2000
+);
+
+report(
   "finabel('😃🧘🏻‍♂️🌍🍞🚗', '📞🎉♥️🏁')",
-  "a982b6bdada258da66e9c751cbf0b51e49294aa3d942a9b63f509b92dac84413747ecf103ff055cf06ee9c86d0861ca3348399b873802fda2c160dfe36aa436566010b6023e89ee07e79ec52f013088ca839237805218060ec4c68d6d40cc8ba426e45d77a4796dfd8c4a74b1d0bdd54d727e0876e1a4e6e41b74f66f",
+  "f022031c569ecd88e0fa4b277336a55843d84f8d388d172343a177f22777288ad37bf1dd7f064a878a79b4eab68b06e2365f1e8b1a792752b3610380be0da1ab59a31e6c670f54ff8271710eb7aa6d7e1d604dcecc8c1b427bc7a01d242a91e28ecd8bb5fdbcc9ab054371f73a5ed8161b988f1f0d5ce00a83107574c",
   "😃🧘🏻‍♂️🌍🍞🚗",
   "📞🎉♥️🏁"
 );
