@@ -62,7 +62,7 @@ Choosing strong parameters will go a long way in securing you user's passwords.
 
 (3) Number of output digits used should probably be at minimum 32 hexadecimal digits.
 
-(4) Always include a salt parameter. This could be something such as the user's username, or maybe dynamically generated data (securely) sent over from the server. If the latter then the user's password can possibly be much shorter (even empty). Just be sure that it is *truly* random and contains a good amount of entropy (256 bits for example).
+(4) Always include a salt parameter. This could be the user's username, or even something such as dynamically generated data (securely) sent over from the server. If the latter then the user's password can possibly be much shorter (even empty). Just be sure that it is *truly* random and contains a good amount of entropy (256 bits for example).
 
 ## Implementation
 
