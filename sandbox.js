@@ -55,13 +55,12 @@ var finabel = (function () {
  Key stretching function
 */
 
-  function stretch(value, expense) {
-    var minimum_length = expense > minimum_digits ? expense : minimum_digits;
+  function stretch(value) {
     var hexadecimal = value.toString(16);
     var buffer = hexadecimal;
     do {
       buffer += record_separator + hexadecimal;
-    } while (buffer.length < minimum_length);
+    } while (buffer.length < minimum_digits);
     return BigInt("0x" + buffer);
   }
 
@@ -76,6 +75,9 @@ var finabel = (function () {
     var rounds = parameters.rounds || 1000;
     var digits = parameters.digits || 0;
     var expense = parameters.expense || 0;
+    var skip = Math.floor(expense / minimum_digits);
+    if (skip == 0) skip = 1;
+    var iterations = Math.floor(skip / rounds);
 
     /*
  Initial construction: concatenate keys/salt
@@ -92,23 +94,32 @@ var finabel = (function () {
  Compute the hash
 */
 
+    var buffer = "";
     var V = BigInt("0x" + merged);
-    do {
-      var Q = stretch(V, expense);
-      var R = (Q * A) % B;
-      var S = stretch(R, expense);
-      V = (Q * S) % C;
-    } while (rounds-- > 0);
 
-    var text = V.toString(16);
+    do {
+      do {
+      
+        var Q = stretch(V);
+        var R = (Q * A) % B;
+        var S = stretch(R);
+        V = (Q * S) % C;
+        buffer += V.toString(16);
+      
+      } while (buffer.length < expense);
+    } while (iterations-- > 0);
+
+    var result = "";
+    for (var index = 0; index < buffer.length; index += skip)
+      result += buffer.charAt(index);
 
     if (digits > 0) {
-      var length = text.length;
-      if (length > digits) return text.substr(0, digits);
-      while (length++ < digits) text += "0";
+      var length = result.length;
+      if (length > digits) return result.substr(0, digits);
+      while (length++ < digits) result += "0";
     }
 
-    return text;
+    return result;
   }
 
   return hash;
