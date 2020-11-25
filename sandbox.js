@@ -70,8 +70,8 @@ var finabel = (function () {
 */
 
   function hash(parameters) {
-    var key = parameters.key;
-    var keys = Array.isArray(key) ? key : [key];
+    var password = parameters.password;
+    var keys = Array.isArray(password) ? password : [password];
     keys.push(parameters.salt);
     var rounds = parameters.rounds || 1000;
     var digits = parameters.digits || 0;
