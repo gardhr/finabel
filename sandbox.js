@@ -129,10 +129,10 @@ var finabel = (function () {
     do {
       V = cycle(V);
       buffer += V.toString(16);
-    } while (buffer.length < cost);
+    } while (buffer.length <= cost);
 
     var result = "";
-    if (cost == 0) result = buffer;
+    if (cost <= minimum_digits) result = buffer;
     else {
       // Reverse lookup mapping chars {'0'...'f'} to integers {0...15}
       var reverse = new Array(256);
@@ -150,10 +150,10 @@ var finabel = (function () {
       var right = end;
       do {
         result += buffer.charAt(left);
-        var skip = reverse[buffer.codePointAt(right)] + 1;
+        var skip = reverse[buffer.codePointAt(right)] + minimum_digits;
         left += skip;
-        if (left > end) left = end - left;
-        if (skip > right) right = end - (skip - right);
+        if (left > end) left -= end;
+        if (skip > right) right = end - right;
         else right -= skip;
       } while (result.length < minimum_digits);
     }
