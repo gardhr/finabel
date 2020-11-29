@@ -104,25 +104,19 @@ var finabel = (function () {
       if (next == null || next == "") continue;
       merged += toHex(next) + field_separator;
     }
-
     var V = BigInt("0x" + merged);
 
     /*
- Estimate the number of rounds needed to construct the result
+ Compute skipping distance, then cycle through "discard" rounds   
 */
 
-    var needed = Math.floor(cost / minimum_digits);
-    if (needed > rounds) rounds = 0;
-    else rounds -= needed;
-
-    /*
- Spin through the first set of rounds   
-*/
+    var skip = Math.floor(cost / minimum_digits) + 1;
+    rounds -= skip;
 
     while (rounds-- > 1) V = cycle(V);
 
     /*
- Finish off with the second set of rounds   
+ Final set of rounds used to construct the result   
 */
 
     var buffer = "";
@@ -132,31 +126,21 @@ var finabel = (function () {
     } while (buffer.length <= cost);
 
     var result = "";
-    if (cost <= minimum_digits) result = buffer;
-    else {
-      // Reverse lookup mapping chars {'0'...'f'} to integers {0...15}
-      var reverse = new Array(256);
-      for (var index = 0x30; index < 0x3a; ++index)
-        reverse[index] = index - 0x30;
-      for (var index = 0x61, delta = index - 0xa; index < 0x67; ++index)
-        reverse[index] = index - delta;
 
-      /*
-  Build the result using memory-dependant construction
+    /*
+  Build the result, back to front
 */
 
-      var left = 0;
-      var end = buffer.length - 1;
-      var right = end;
-      do {
-        result += buffer.charAt(left);
-        var skip = reverse[buffer.codePointAt(right)] + minimum_digits;
-        left += skip;
-        if (left > end) left -= end;
-        if (skip > right) right = end - right;
-        else right -= skip;
-      } while (result.length < minimum_digits);
+    var right = buffer.length - 1;
+    for (;;) {
+      result += buffer.charAt(right);
+      if (right < skip) break;
+      right -= skip;
     }
+
+    /*
+  Truncate or pad result, as necessary
+*/
 
     if (digits > 0) {
       var length = result.length;
