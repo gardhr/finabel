@@ -110,10 +110,16 @@ var finabel = (function () {
  Compute skipping distance, then cycle through "discard" rounds   
 */
 
-    var skip = Math.floor(cost / minimum_digits) + 1;
-    rounds -= skip;
+    var skip = Math.floor(cost / minimum_digits);
+    if (skip == 0) skip = 1;
 
-    while (rounds-- > 1) V = cycle(V);
+    if (skip > rounds) rounds = 0;
+    else rounds -= skip;
+
+console.log("Rounds:", rounds);
+console.log("Skip:", skip);
+
+    while (rounds-- > 0) V = cycle(V);
 
     /*
  Final set of rounds used to construct the result   
@@ -123,17 +129,19 @@ var finabel = (function () {
     do {
       V = cycle(V);
       buffer += V.toString(16);
-    } while (buffer.length <= cost);
-
-    var result = "";
-
+    } while (buffer.length < cost);
+    
     /*
   Build the result, back to front
 */
 
+    var result = "";
     var right = buffer.length - 1;
     for (;;) {
       result += buffer.charAt(right);
+      
+console.log("Index:", right);      
+      
       if (right < skip) break;
       right -= skip;
     }

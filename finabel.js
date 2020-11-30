@@ -89,6 +89,8 @@ var finabel = (function () {
 */
 
     var V = BigInt("0x" + merged);
+console.log("Merged: ", merged);    
+console.log("Merged as integer: ", V);    
     do {
       var Q = stretch(V);
       var R = (Q * A) % B;
