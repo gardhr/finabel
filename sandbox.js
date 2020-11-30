@@ -146,25 +146,25 @@ var finabel = (function () {
 */
 
     var result = "";
-    var end = buffer.length - 1;
+    var current = buffer.length - 1;
     for (;;) {
-      var seek = end;
+      var read = current;
       var accumulator = 0;
 
       while (accumulator < window) {
         accumulator <<= 4;
-        accumulator |= lookupCode[buffer.codePointAt(seek)];
-        if (seek-- == 0) break;
+        accumulator |= lookupCode[buffer.codePointAt(read)];
+        if (read-- == 0) break;
       }
 
-      var skip = Math.floor(accumulator % window) + 1;
-      if (skip > end) break;
-      var position = end - skip;
+      var offset = Math.floor(accumulator % window) + 1;
+      if (offset > current) break;
+      var position = current - offset;
 
       console.log("Index:", position);
 
       result += buffer.charAt(position);
-      end = position;
+      current = position;
     }
 
     /*
