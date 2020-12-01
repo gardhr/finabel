@@ -1,4 +1,5 @@
 var finabel = (function () {
+
   /*
  Static lookup tables
 */
@@ -64,7 +65,7 @@ var finabel = (function () {
       "15775014701175216242011377646611112897139737772263"
   );
 
-/*
+  /*
  Use separators; improves immalleability 
 */
 
@@ -169,7 +170,7 @@ var finabel = (function () {
     }
 
     /*
-  Truncate or pad the result if necessary
+  Truncate or pad the result, if necessary
 */
 
     if (digits > 0) {
