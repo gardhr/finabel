@@ -116,7 +116,7 @@ var finabel = (function () {
     var merged = record_separator;
     for (var index = 0, limit = keys.length; index < limit; ++index) {
       var next = keys[index];
-      if (next == null || next == "") continue;
+      if (next == null || next == "") continue
       merged += toHex(next) + field_separator;
     }
     var V = BigInt("0x" + merged);
