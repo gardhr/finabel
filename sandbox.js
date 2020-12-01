@@ -121,14 +121,13 @@ var finabel = (function () {
 */
 
     var window = Math.floor(cost / minimum_digits);
-    if (window > rounds) rounds = 0;
-    else rounds -= window;
+    var discards = (window <= rounds) ? rounds - window : 0;
 
     /*
  Spin through "discard" rounds   
 */
 
-    while (rounds-- > 0) V = cycle(V);
+    while (discards-- > 0) V = cycle(V);
 
     /*
  Finish off with enough rounds needed satisfy our memory quota   
@@ -157,13 +156,12 @@ var finabel = (function () {
       }
 
       var offset = Math.floor(accumulator % window) + 1;
-      if (offset > current) break;
-      var position = current - offset;
+      if (offset >= current) break;
+      current -= offset;
 
-      console.log("Index:", position);
-
-      result += buffer.charAt(position);
-      current = position;
+      result += buffer.charAt(current);
+      if(result.length >= minimum_digits)
+       break;
     }
 
     /*
