@@ -97,10 +97,9 @@ var finabel = (function () {
 */
 
   function hash(key, salt, rounds, digits, cost) {
-    if (rounds == null || rounds == 0) rounds = 1000;
+    if (rounds == null || rounds == 0) rounds = 4096;
     if (digits == null) digits = 0;
-    if (cost == null) cost = 0;
-    if (cost == 0) cost = 250;
+    if (cost == null || cost == 0) cost = 256;
     cost *= 1024;
     var keys = Array.isArray(key) ? key : [key];
     keys.push(salt);
