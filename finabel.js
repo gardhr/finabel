@@ -1,4 +1,5 @@
 var finabel = (function () {
+
   var hexadecimal = "0123456789abcdef";
   var lookup = new Array(256);
   for (var index = 0; index < 256; ++index)
@@ -46,6 +47,10 @@ var finabel = (function () {
       "15406770374497502730147945284076674546501315764540" +
       "15775014701175216242011377646611112897139737772263"
   );
+
+  /*
+ Use separators; improves immaleability
+*/
 
   var minimum_digits = C.toString(16).length;
   var record_separator = toHex("\u001e");
