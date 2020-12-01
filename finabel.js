@@ -1,5 +1,4 @@
 var finabel = (function () {
-
   var hexadecimal = "0123456789abcdef";
   var lookup = new Array(256);
   for (var index = 0; index < 256; ++index)
