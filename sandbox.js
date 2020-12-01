@@ -168,7 +168,7 @@ var finabel = (function () {
       if(result.length >= minimum_digits)
        break;
     }
-
+ 
     /*
   Truncate or pad the result, if necessary
 */
