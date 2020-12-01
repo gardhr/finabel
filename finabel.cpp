@@ -14,8 +14,6 @@ std::string toHex(std::string const& text) {
   return result;
 }
 
-
-
 /*
  Basic mpz_t RAII wrapper
 */
@@ -62,12 +60,12 @@ BigInt stretch(BigInt const& value) {
   return BigInt(buffer, 16);
 }
 
-BigInt congruence(BigInt const& lhs, BigInt const& rhs, BigInt const& mod) {
-  BigInt res;
-  mpz_mul(res.data, lhs.data, rhs.data);
-  mpz_mod(res.data, res.data, mod.data);
-  return res;
-}
+  BigInt congruence(BigInt const& lhs, BigInt const& rhs, BigInt const& mod) {
+    BigInt res;
+    mpz_mul(res.data, lhs.data, rhs.data);
+    mpz_mod(res.data, res.data, mod.data);
+    return res;
+  }
 
 std::string finabel(std::vector<std::string> const& keys,
                     size_t rounds = 0,
@@ -139,4 +137,5 @@ std::string finabel(std::vector<std::string> const& keys,
 }  // namespace gardhr
 
 using gardhr::finabel;
+
 
