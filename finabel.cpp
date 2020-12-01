@@ -104,7 +104,7 @@ std::string finabel(std::vector<std::string> const& keys,
   }
 
   if (rounds == 0)
-    rounds = 4096;
+    rounds = 4096; 
   std::string merged = record_separator;
   for (size_t index = 0, limit = keys.size(); index < limit; ++index) {
     const std::string& next = keys[index];
