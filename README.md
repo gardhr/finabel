@@ -26,7 +26,7 @@ if (argc > 4) digits = Number(argv[4]);
 console.log(finabel(key, salt, rounds, digits));
 ```
 
-NOTE: If _rounds_ is zero or unspecified, a default of 1000 rounds is used. This amounts to roughly the same time complexity (within an order of magnitude) as the default configurations of [argon2](https://en.wikipedia.org/wiki/Argon2) and [scrypt](https://en.wikipedia.org/wiki/Scrypt). Smaller values are not recommended, as they will only make your hashes more susceptible to brute force attacks.
+NOTE: If _rounds_ is zero or unspecified, a default of 4096 rounds is used. This amounts to roughly the same time complexity (within an order of magnitude) as the default configurations of [argon2](https://en.wikipedia.org/wiki/Argon2) and [scrypt](https://en.wikipedia.org/wiki/Scrypt). Smaller values are not recommended, as they will only make your hashes more susceptible to brute force attacks.
 
 ## How it works
 
