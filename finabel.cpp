@@ -60,6 +60,13 @@ BigInt stretch(BigInt const& value) {
   return BigInt(buffer, 16);
 }
 
+  BigInt congruence(BigInt const& lhs, BigInt const& rhs, BigInt const& mod) {
+    BigInt res;
+    mpz_mul(res.data, lhs.data, rhs.data);
+    mpz_mod(res.data, res.data, mod.data);
+    return res;
+  }
+
 std::string finabel(std::vector<std::string> const& keys,
                     size_t rounds = 0,
                     size_t digits = 0) {
@@ -97,7 +104,7 @@ std::string finabel(std::vector<std::string> const& keys,
   }
 
   if (rounds == 0)
-    rounds = 1000;
+    rounds = 4096;
   std::string merged = record_separator;
   for (size_t index = 0, limit = keys.size(); index < limit; ++index) {
     const std::string& next = keys[index];
@@ -105,15 +112,13 @@ std::string finabel(std::vector<std::string> const& keys,
       merged += toHex(next) + field_separator;
   }
 
-  BigInt Q, R, S, tmp;
+  BigInt Q, R, S;
   BigInt V = BigInt(merged, 16);
   do {
     Q = stretch(V);
-    mpz_mul(tmp.data, Q.data, A.data);
-    mpz_mod(R.data, tmp.data, B.data);
+    R = congruence(Q, A, B);
     S = stretch(R);
-    mpz_mul(tmp.data, Q.data, S.data);
-    mpz_mod(V.data, tmp.data, C.data);
+    V = congruence(Q, S, C);
   } while (rounds-- != 0);
 
   std::string text = V.toString(16);
