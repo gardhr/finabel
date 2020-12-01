@@ -65,7 +65,7 @@ var finabel = (function () {
   );
 
 /*
- Separators; improve immalleability 
+ Use separators; improves immalleability 
 */
 
   var record_separator = toHex("\u001e");
