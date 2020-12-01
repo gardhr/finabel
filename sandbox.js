@@ -64,9 +64,13 @@ var finabel = (function () {
       "15775014701175216242011377646611112897139737772263"
   );
 
-  var minimum_digits = C.toString(16).length;
+/*
+ Separators; improve immalleability 
+*/
+
   var record_separator = toHex("\u001e");
   var field_separator = toHex("\u001c");
+  var minimum_digits = C.toString(16).length;
 
   /*
  Key stretching function
