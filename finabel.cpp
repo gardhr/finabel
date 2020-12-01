@@ -60,12 +60,12 @@ BigInt stretch(BigInt const& value) {
   return BigInt(buffer, 16);
 }
 
-  BigInt congruence(BigInt const& lhs, BigInt const& rhs, BigInt const& mod) {
-    BigInt res;
-    mpz_mul(res.data, lhs.data, rhs.data);
-    mpz_mod(res.data, res.data, mod.data);
-    return res;
-  }
+BigInt congruence(BigInt const& lhs, BigInt const& rhs, BigInt const& mod) {
+  BigInt res;
+  mpz_mul(res.data, lhs.data, rhs.data);
+  mpz_mod(res.data, res.data, mod.data);
+  return res;
+}
 
 std::string finabel(std::vector<std::string> const& keys,
                     size_t rounds = 0,
@@ -104,7 +104,7 @@ std::string finabel(std::vector<std::string> const& keys,
   }
 
   if (rounds == 0)
-    rounds = 4096; 
+    rounds = 4096;
   std::string merged = record_separator;
   for (size_t index = 0, limit = keys.size(); index < limit; ++index) {
     const std::string& next = keys[index];
@@ -137,5 +137,4 @@ std::string finabel(std::vector<std::string> const& keys,
 }  // namespace gardhr
 
 using gardhr::finabel;
-
 
