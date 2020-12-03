@@ -35,4 +35,4 @@ int main(int argc, char** argv) {
   keys.push_back(salt);
   cout << finabel(keys, rounds, digits, cost) << endl;
 }
-
+ 

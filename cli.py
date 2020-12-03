@@ -19,4 +19,4 @@ cost = 0
 if argc > 5:
     cost = int(argv[5])
 print(finabel(key, salt, rounds, digits, cost))
-
+ 

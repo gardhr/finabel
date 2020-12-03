@@ -14,3 +14,4 @@ if (argc > 4) digits = Number(argv[4]);
 let cost = 0;
 if (argc > 5) cost = Number(argv[5]);
 console.log(finabel(key, salt, rounds, digits, cost));
+
