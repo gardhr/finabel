@@ -3,6 +3,10 @@
 
 namespace gardhr {
 
+/*
+ Convert a utf-8 string to hexadecimal digits
+*/
+
 std::string toHex(std::string const& text) {
   char hexadecimal[] = "0123456789abcdef";
   std::string result;
@@ -17,8 +21,11 @@ std::string toHex(std::string const& text) {
 /*
  Basic mpz_t RAII wrapper
 */
+
 struct BigInt {
-  BigInt(std::string const& text = "", size_t base = 10) {
+  BigInt() { mpz_init(data); }
+
+  BigInt(std::string const& text, size_t base = 10) {
     mpz_init(data);
     mpz_set_str(data, text.c_str(), base);
   }
@@ -47,9 +54,17 @@ struct BigInt {
   mpz_t data;
 };
 
-static size_t minimum_digits;
+/*
+ Separators improve immalleability
+*/
+
 static std::string record_separator = toHex("\x1e");
 static std::string field_separator = toHex("\x1c");
+static size_t minimum_digits;
+
+/*
+ Key stretching function
+*/
 
 BigInt stretch(BigInt const& value) {
   std::string hexadecimal = value.toString(16);
@@ -60,21 +75,49 @@ BigInt stretch(BigInt const& value) {
   return BigInt(buffer, 16);
 }
 
+/*
+ Calculate X * Y mod P
+*/
+
 BigInt congruence(BigInt const& lhs, BigInt const& rhs, BigInt const& mod) {
-  BigInt res;
-  mpz_mul(res.data, lhs.data, rhs.data);
-  mpz_mod(res.data, res.data, mod.data);
+  BigInt tmp, res;
+  mpz_mul(tmp.data, lhs.data, rhs.data);
+  mpz_mod(res.data, tmp.data, mod.data);
   return res;
 }
 
+/*
+ Cycle once through our finite fields
+*/
+
+BigInt cycle(BigInt const& V,
+             BigInt const& A,
+             BigInt const& B,
+             BigInt const& C) {
+  BigInt Q = stretch(V);
+  BigInt R = congruence(Q, A, B);
+  BigInt S = stretch(R);
+  return congruence(Q, S, C);
+}
+
+/*
+ Hash function interface
+*/
+
 std::string finabel(std::vector<std::string> const& keys,
                     size_t rounds = 0,
-                    size_t digits = 0) {
+                    size_t digits = 0,
+                    size_t cost = 0) {
   static BigInt A, B, C;
+  static char lookupCode[256];
   static bool uninitialized = true;
 
   if (uninitialized) {
     uninitialized = false;
+
+    /*
+     A few large safe primes
+  */
 
     A = BigInt(
         "90086843365112375319585743415488659286349207571888"
@@ -100,11 +143,29 @@ std::string finabel(std::vector<std::string> const& keys,
         "15406770374497502730147945284076674546501315764540"
         "15775014701175216242011377646611112897139737772263");
 
+    /*
+     Static lookup tables
+  */
+
+    for (size_t index = 0x30; index < 0x3a; ++index)
+      lookupCode[index] = index - 0x30;
+    for (size_t index = 0x61; index < 0x67; ++index)
+      lookupCode[index] = index - 0x57;
+
     minimum_digits = C.toString(16).size();
   }
 
   if (rounds == 0)
-    rounds = 4096;
+    rounds = 1024;
+
+  if (cost == 0)
+    cost = 512;
+  cost *= 1024;
+
+  /*
+   Initial construction: concatenate keys/salt
+*/
+
   std::string merged = record_separator;
   for (size_t index = 0, limit = keys.size(); index < limit; ++index) {
     const std::string& next = keys[index];
@@ -112,29 +173,73 @@ std::string finabel(std::vector<std::string> const& keys,
       merged += toHex(next) + field_separator;
   }
 
-  BigInt Q, R, S;
   BigInt V = BigInt(merged, 16);
-  do {
-    Q = stretch(V);
-    R = congruence(Q, A, B);
-    S = stretch(R);
-    V = congruence(Q, S, C);
-  } while (rounds-- != 0);
 
-  std::string text = V.toString(16);
+  /*
+   Estimate the number of rounds needed to construct the result
+*/
 
-  if (digits > 0) {
-    size_t length = text.size();
-    if (length > digits)
-      return text.substr(0, digits);
-    while (length++ < digits)
-      text += "0";
+  size_t window = cost / minimum_digits + 1;
+  size_t discards = (window > rounds) ? 0 : rounds - window;
+
+  /*
+   Spin through "discard" rounds
+*/
+
+  while (discards-- > 0)
+    V = cycle(V, A, B, C);
+
+  /*
+   Finish off with enough rounds needed satisfy our memory quota
+*/
+
+  std::string buffer = "";
+  while (true) {
+    V = cycle(V, A, B, C);
+    buffer += V.toString(16);
+    if (buffer.size() >= cost)
+      break;
   }
 
-  return text;
+  /*
+   Build the result using memory-dependant construction, back to front
+*/
+
+  std::string result = "";
+  size_t current = buffer.size() - 1;
+  while(true) {
+    size_t read = current;
+    size_t accumulator = 0;
+
+    while (accumulator < window) {
+      accumulator <<= 4;
+      accumulator |= lookupCode[buffer[read]];
+      if (read-- == 0)
+        break;
+    }
+
+    size_t offset = accumulator % window + 1;
+    if (offset >= current)
+      break;
+    current -= offset;
+    result += buffer[current];
+  }
+
+  /*
+   Truncate or pad the result, if necessary
+*/
+
+  if (digits > 0) {
+    size_t length = result.size();
+    if (length > digits)
+      return result.substr(0, digits);
+    while (length++ < digits)
+      result += "0";
+  }
+
+  return result;
 }
 
 }  // namespace gardhr
 
 using gardhr::finabel;
-

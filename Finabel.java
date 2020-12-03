@@ -1,26 +1,57 @@
 import java.math.BigInteger;
 
 public class Finabel {
+
     static String hexadecimal = "0123456789abcdef";
-    static String lookup[] = new String[256];
+    static String lookupHex[] = new String[256];
+    static int lookupCode[] = new int[256];
+    static String record_separator = null;
+    static String field_separator = null;
     static boolean uninitialized = true;
 
-    private static String toHex(String text) {
-        if (uninitialized == true) {
+    Finabel() {
+        if (uninitialized) {
             uninitialized = false;
+
+            /*
+ Static lookup tables
+*/
             for (int index = 0; index < 256; ++index)
-                lookup[index] = String.valueOf(hexadecimal.charAt(index >> 4)) +
+                lookupHex[index] = String.valueOf(hexadecimal.charAt(index >> 4)) +
                 String.valueOf(hexadecimal.charAt(index & 0xf));
+
+            for (int index = 0x30; index < 0x3a; ++index)
+                lookupCode[index] = index - 0x30;
+            for (int index = 0x61; index < 0x67; ++index)
+                lookupCode[index] = index - 0x57;
+
+            /*
+ Separators improve immalleability 
+*/
+
+            record_separator = toHex("\u001e");
+            field_separator = toHex("\u001c");
         }
+    }
+
+    /*
+ Convert a utf-8 string to hexadecimal digits
+*/
+
+    private static String toHex(String text) {
         String result = "";
         byte encoded[] = null;
         try {
             encoded = text.getBytes("UTF8");
         } catch (java.io.UnsupportedEncodingException error) {}
         for (int index = 0; index < encoded.length; ++index)
-            result = result.concat(lookup[encoded[index] & 0xff]);
+            result += lookupHex[encoded[index] & 0xff];
         return result;
     }
+
+    /*
+ A few large safe primes
+*/
 
     static BigInteger A = new BigInteger(
         "90086843365112375319585743415488659286349207571888" +
@@ -50,50 +81,120 @@ public class Finabel {
     );
 
     static int minimum_digits = C.toString(16).length();
-    static String record_separator = toHex("\u001e");
-    static String field_separator = toHex("\u001c");
+
+    /*
+ Key stretching function
+*/
 
     private static BigInteger stretch(BigInteger value) {
         String hexadecimal = value.toString(16);
         String buffer = hexadecimal;
         do {
-            buffer = buffer.concat(record_separator + hexadecimal);
+            buffer += (record_separator + hexadecimal);
         } while (buffer.length() < minimum_digits);
         return new BigInteger(buffer, 16);
     }
 
-    public String hash(String keys[], int rounds, int digits) {
+    /*
+ Cycle once through our finite fields
+*/
+
+    private static BigInteger cycle(BigInteger V) {
+        BigInteger Q = stretch(V);
+        BigInteger R = Q.multiply(A).mod(B);
+        BigInteger S = stretch(R);
+        return Q.multiply(S).mod(C);
+    }
+
+    /*
+ Hash function interface
+*/
+
+    public String hash(String keys[], int rounds, int digits, int cost) {
+
         if (rounds == 0)
-            rounds = 4096;
+            rounds = 1024;
+        if (cost == 0)
+            cost = 512;
+        cost *= 1024;
+        /*
+ Initial construction: concatenate keys/salt
+*/
         String merged = record_separator;
         for (int index = 0, limit = keys.length; index < limit; ++index) {
             String next = keys[index];
             if (next == null || next == "") continue;
-            merged = merged.concat(toHex(next) + field_separator);
+            merged += toHex(next) + field_separator;
         }
 
-        var V = new BigInteger(merged, 16);
-        do {
-            var Q = stretch(V);
-            var R = Q.multiply(A).mod(B);
-            var S = stretch(R);
-            V = Q.multiply(S).mod(C);
-        } while (rounds-- > 0);
+        BigInteger V = new BigInteger(merged, 16);
 
-        String text = V.toString(16);
+        /*
+ Estimate the number of rounds needed to construct the result
+*/
 
+        int window = cost / minimum_digits + 1;
+        int discards = (window <= rounds) ? rounds - window : 0;
+
+        /*
+ Spin through "discard" rounds   
+*/
+
+        while (discards-- > 0) V = cycle(V);
+
+        /*
+ Finish off with enough rounds needed satisfy our memory quota   
+*/
+
+        String buffer = "";
+        while (true) {
+            V = cycle(V);
+            buffer += V.toString(16);
+            if (buffer.length() >= cost)
+                break;
+        }
+
+        /*
+  Build the result using memory-dependant construction, back to front
+*/
+        String result = "";
+        int current = buffer.length() - 1;
+        while(true) {
+            int read = current;
+            int accumulator = 0;
+
+            while (accumulator < window) {
+                accumulator <<= 4;
+                accumulator |= lookupCode[buffer.codePointAt(read)];
+                if (read-- == 0) break;
+            }
+            int offset = (int)(Math.floor(accumulator % window) + 1);
+            if (offset >= current) break;
+            current -= offset;
+            result += buffer.charAt(current);
+        }
+
+        /*
+  Truncate or pad the result, if necessary
+*/
         if (digits > 0) {
-            int length = text.length();
-            if (length > digits) return text.substring(0, digits);
-            while (length++ < digits) text = text.concat("0");
+            int length = result.length();
+            if (length > digits) return result.substring(0, digits);
+            while (length++ < digits) result = result.concat("0");
         }
-        
-        return text;
+
+        return result;
     }
 
+    /*
+  Example usage
+*/
+
     public static void main(String[] argv) {
-        System.out.println("Usage: java Finabel.java [KEY] [SALT] [ROUNDS] [DIGITS]");
+
         int argc = argv.length;
+        if (argc <= 1)
+            System.out.println("Usage: java Finabel.java [KEY] [SALT] [ROUNDS] [DIGITS] [COST]");
         String key = "";
         if (argc > 0)
             key = argv[0];
@@ -106,11 +207,15 @@ public class Finabel {
         int digits = 0;
         if (argc > 3)
             digits = Integer.parseInt(argv[3]);
+        int cost = 0;
+        if (argc > 4)
+            cost = Integer.parseInt(argv[4]);
         String keys[] = {
             key,
             salt
         };
+
         Finabel finabel = new Finabel();
-        System.out.println(finabel.hash(keys, rounds, digits));
+        System.out.println(finabel.hash(keys, rounds, digits, cost));
     }
 }

@@ -1,9 +1,23 @@
 var finabel = (function () {
-  var hexadecimal = "0123456789abcdef";
-  var lookup = new Array(256);
+  /*
+ Static lookup tables
+*/
+
+  var hexChars = "0123456789abcdef";
+  var lookupHex = new Array(256);
   for (var index = 0; index < 256; ++index)
-    lookup[index] =
-      hexadecimal.charAt(index >> 4) + hexadecimal.charAt(index & 0xf);
+    lookupHex[index] =
+      hexChars.charAt(index >> 4) + hexChars.charAt(index & 0xf);
+
+  var lookupCode = new Array(256);
+  for (var index = 0x30; index < 0x3a; ++index)
+    lookupCode[index] = index - 0x30;
+  for (var index = 0x61; index < 0x67; ++index)
+    lookupCode[index] = index - 0x57;
+
+  /*
+ Convert a utf-8 string to hexadecimal digits
+*/
 
   function toHex(text) {
     var result = "";
@@ -15,10 +29,14 @@ var finabel = (function () {
         code = Number("0x" + encoded[index + 1] + encoded[index + 2]);
         index += 2;
       } else code = ch.codePointAt(0);
-      result += lookup[code];
+      result += lookupHex[code];
     }
     return result;
   }
+
+  /*
+ A few large safe primes
+*/
 
   A = BigInt(
     "90086843365112375319585743415488659286349207571888" +
@@ -48,12 +66,12 @@ var finabel = (function () {
   );
 
   /*
- Use separators; improves immaleability
+ Separators improve immalleability
 */
 
-  var minimum_digits = C.toString(16).length;
   var record_separator = toHex("\u001e");
   var field_separator = toHex("\u001c");
+  var minimum_digits = C.toString(16).length;
 
   /*
  Key stretching function
@@ -69,12 +87,25 @@ var finabel = (function () {
   }
 
   /*
+ Cycle once through our finite fields
+*/
+
+  function cycle(V) {
+    var Q = stretch(V);
+    var R = (Q * A) % B;
+    var S = stretch(R);
+    return (Q * S) % C;
+  }
+
+  /*
  Hash function interface
 */
 
-  function hash(key, salt, rounds, digits) {
-    if (rounds == null || rounds == 0) rounds = 4096;
+  function hash(key, salt, rounds, digits, cost) {
+    if (rounds == null || rounds == 0) rounds = 1024;
     if (digits == null) digits = 0;
+    if (cost == null || cost == 0) cost = 512;
+    cost *= 1024;
     var keys = Array.isArray(key) ? key : [key];
     keys.push(salt);
 
@@ -88,28 +119,62 @@ var finabel = (function () {
       if (next == null || next == "") continue;
       merged += toHex(next) + field_separator;
     }
+    var V = BigInt("0x" + merged);
 
     /*
- Compute the hash
+ Estimate the number of rounds needed to construct the result
 */
 
-    var V = BigInt("0x" + merged);
-    do {
-      var Q = stretch(V);
-      var R = (Q * A) % B;
-      var S = stretch(R);
-      V = (Q * S) % C;
-    } while (rounds-- > 0);
+    var window = Math.floor(cost / minimum_digits) + 1;
+    var discards = window <= rounds ? rounds - window : 0;
 
-    var text = V.toString(16);
-
-    if (digits > 0) {
-      var length = text.length;
-      if (length > digits) return text.substr(0, digits);
-      while (length++ < digits) text += "0";
+    /*
+ Spin through "discard" rounds   
+*/
+    while (discards-- > 0) V = cycle(V);
+    /*
+ Finish off with enough rounds needed satisfy our memory quota   
+*/
+    var buffer = "";
+    while (true) {
+      V = cycle(V);
+      buffer += V.toString(16);
+      if (buffer.length >= cost) break;
     }
 
-    return text;
+    /*
+  Build the result using memory-dependant construction, back to front
+*/
+
+    var result = "";
+    var current = buffer.length - 1;
+    while(true) {
+      var read = current;
+      var accumulator = 0;
+
+      while (accumulator < window) {
+        accumulator <<= 4;
+        accumulator |= lookupCode[buffer.codePointAt(read)];
+        if (read-- == 0) break;
+      }
+
+      var offset = Math.floor(accumulator % window) + 1;
+      if (offset >= current) break;
+      current -= offset;
+      result += buffer.charAt(current);
+    }
+
+    /*
+  Truncate or pad the result, if necessary
+*/
+
+    if (digits > 0) {
+      var length = result.length;
+      if (length > digits) return result.substr(0, digits);
+      while (length++ < digits) result += "0";
+    }
+
+    return result;
   }
 
   return hash;

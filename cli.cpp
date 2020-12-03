@@ -12,7 +12,9 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-  cout << "Usage: " << argv[0] << " [KEY] [SALT] [ROUNDS] [DIGITS]" << endl;
+  if (argc <= 1)
+    cout << "Usage: " << argv[0] << " [KEY] [SALT] [ROUNDS] [DIGITS] [COST]"
+         << endl;
   string key = "";
   if (argc > 1)
     key = argv[1];
@@ -25,9 +27,12 @@ int main(int argc, char** argv) {
   size_t digits = 0;
   if (argc > 4)
     digits = atoi(argv[4]);
+  size_t cost = 0;
+  if (argc > 5)
+    cost = atoi(argv[5]);
   vector<string> keys;
   keys.push_back(key);
   keys.push_back(salt);
-  cout << finabel(keys, rounds, digits) << endl;
+  cout << finabel(keys, rounds, digits, cost) << endl;
 }
 

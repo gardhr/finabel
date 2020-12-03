@@ -14,7 +14,8 @@ Finabel is a relatively simple password hashing algorithm based on cyclic abelia
 const finabel = require("./finabel");
 let argv = process.argv.slice(1);
 let argc = argv.length;
-console.log("Usage:", argv[0], "[KEY] [SALT] [ROUNDS] [DIGITS]");
+if (argc <= 1)
+  console.log("Usage:", argv[0], "[KEY] [SALT] [ROUNDS] [DIGITS] [COST]");
 let key = "";
 if (argc > 1) key = argv[1];
 let salt = "";
@@ -23,10 +24,12 @@ let rounds = 0;
 if (argc > 3) rounds = Number(argv[3]);
 let digits = 0;
 if (argc > 4) digits = Number(argv[4]);
-console.log(finabel(key, salt, rounds, digits));
+let cost = 0;
+if (argc > 5) cost = Number(argv[5]);
+console.log(finabel(key, salt, rounds, digits, cost));
 ```
 
-NOTE: If _rounds_ is zero or unspecified, a default of 4096 rounds is used. This amounts to roughly the same time complexity (within an order of magnitude) as the default configurations of [argon2](https://en.wikipedia.org/wiki/Argon2) and [scrypt](https://en.wikipedia.org/wiki/Scrypt). Smaller values are not recommended, as they will only make your hashes more susceptible to brute force attacks.
+NOTE: If _rounds_ is zero or unspecified, a default of 1024 rounds is used. If _cost_ is zero or unspecified, a default of 256 (kilobytes) is used.
 
 ## How it works
 
