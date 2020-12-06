@@ -121,11 +121,11 @@ def finabel(
         read = current
         accumulator = 0
         while accumulator < window:
-            accumulator <<= 4
-            accumulator |= lookupCode[buffer[read].encode()[0]]
             if read == 0:
                 break
-            read -= 1
+            read -= 1        
+            accumulator <<= 4
+            accumulator |= lookupCode[buffer[read].encode()[0]]
         offset = math.floor(accumulator % window) + 1
         if offset >= current:
             break

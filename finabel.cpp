@@ -212,10 +212,10 @@ std::string finabel(std::vector<std::string> const& keys,
     size_t accumulator = 0;
 
     while (accumulator < window) {
+      if (read-- == 0)
+        break;    
       accumulator <<= 4;
       accumulator |= lookupCode[buffer[read]];
-      if (read-- == 0)
-        break;
     }
 
     size_t offset = accumulator % window + 1;

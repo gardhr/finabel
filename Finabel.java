@@ -164,9 +164,9 @@ public class Finabel {
             int accumulator = 0;
 
             while (accumulator < window) {
+                if (read-- == 0) break;
                 accumulator <<= 4;
                 accumulator |= lookupCode[buffer.codePointAt(read)];
-                if (read-- == 0) break;
             }
             int offset = (int)(Math.floor(accumulator % window) + 1);
             if (offset >= current) break;
