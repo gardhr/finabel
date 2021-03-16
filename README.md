@@ -6,7 +6,7 @@
 
 Try it [live](https://gardhr.github.io/)!
 
-Finabel is a relatively simple password hashing algorithm based on cyclic abelian groups (finite fields). The primary motivation here was to implement something which is (hopefully) easier to analyze and verify than some of the more typical functions in common use.
+Finabel is a relatively simple password hashing algorithm based on cyclic abelian groups (finite fields). The primary motivation here was to implement something which is hopefully easier to analyze and verify than some of the more typical functions in common use.
 
 ## Usage
 
