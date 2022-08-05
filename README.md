@@ -4,7 +4,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/gardhr/finabel/badge.svg?targetFile=package.json)](https://snyk.io/test/github/gardhr/finabel?targetFile=package.json)
 [![GitHub license](https://img.shields.io/badge/license-UNLICENSE-blue.svg)](https://github.com/gardhr/finabel/blob/master/LICENSE)
 
-Try it [live](https://gardhr.github.io/)!
+Try it [live](https://gardhr.github.io/finabel)!
 
 Finabel is a relatively simple password hashing algorithm based on cyclic abelian groups (finite fields). The primary motivation here was to implement something which is hopefully easier to analyze and verify than some of the more typical functions in common use.
 
